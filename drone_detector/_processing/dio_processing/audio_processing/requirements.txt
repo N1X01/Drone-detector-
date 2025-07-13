@@ -1,0 +1,1 @@
+\nsounddevice\nnumpy\nscipy\nmatplotlib\n
