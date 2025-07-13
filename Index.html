@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TechNinja Drone Sound Detector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans flex flex-col items-center justify-center min-h-screen px-4">
+  <h1 class="text-3xl font-bold mb-4">🚁 Drone Sound Detector</h1>
+
+  <button id="startBtn" class="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-lg font-semibold mb-4">
+    Start Listening
+  </button>
+
+  <div class="w-full max-w-md">
+    <label class="block mb-2 text-sm">Volume Threshold</label>
+    <input type="range" id="thresholdSlider" min="0" max="100" value="30" class="w-full mb-4">
+    <div class="h-6 bg-gray-700 rounded-full overflow-hidden">
+      <div id="volumeBar" class="h-full bg-green-400 w-0"></div>
+    </div>
+    <p class="mt-2 text-sm">Current Volume: <span id="volumeText">0</span></p>
+    <p class="mt-4 font-bold text-xl" id="alertText">Status: Idle</p>
+  </div>
+
+  <script>
+    let audioCtx, analyser, mic;
+    const thresholdSlider = document.getElementById("thresholdSlider");
+    const volumeBar = document.getElementById("volumeBar");
+    const volumeText = document.getElementById("volumeText");
+    const alertText = document.getElementById("alertText");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener("click", async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        mic = audioCtx.createMediaStreamSource(stream);
+        mic.connect(analyser);
+
+        const data = new Uint8Array(analyser.fftSize);
+        alertText.textContent = "Status: Listening...";
+
+        function update() {
+          analyser.getByteTimeDomainData(data);
+          const avg = data.reduce((sum, val) => sum + Math.abs(val - 128), 0) / data.length;
+          const normalized = Math.min(100, Math.round((avg / 128) * 100));
+
+          volumeBar.style.width = `${normalized}%`;
+          volumeText.textContent = normalized;
+
+          const threshold = parseInt(thresholdSlider.value);
+          if (normalized > threshold) {
+            alertText.textContent = "🚨 Drone-Like Sound Detected!";
+            alertText.classList.add("text-red-500");
+          } else {
+            alertText.textContent = "Status: Listening...";
+            alertText.classList.remove("text-red-500");
+          }
+
+          requestAnimationFrame(update);
+        }
+        update();
+      } catch (err) {
+        alertText.textContent = "❌ Mic access denied.";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
