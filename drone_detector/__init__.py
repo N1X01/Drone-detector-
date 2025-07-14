@@ -1,1 +1,1 @@
-python\n# Package initializer\n
+# Package initializer
