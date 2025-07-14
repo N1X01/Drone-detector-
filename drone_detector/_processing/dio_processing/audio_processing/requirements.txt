@@ -1,1 +1,5 @@
-\nsounddevice\nnumpy\nscipy\nmatplotlib\n
+sounddevice
+numpy
+scipy
+matplotlib
+

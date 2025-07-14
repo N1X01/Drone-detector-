@@ -1,1 +1,1 @@
-python\n# Audio helpers will live here\n
+# Audio helpers will live here
