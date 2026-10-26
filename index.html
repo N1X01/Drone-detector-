@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Drone Detector">
+  <meta name="description" content="Local microphone sound monitoring and voice listening by TechNinja.">
+  <title>TechNinja Drone Sound Detector</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="brand">TECHNINJA <span>• AUDIO TOOLS</span></p>
+      <h1>Drone Sound<br><span>Detector</span></h1>
+      <p class="intro">Listen to your surroundings.</p>
+    </header>
+    <section class="card" aria-label="Sound monitor">
+      <p id="status" role="status" aria-live="polite">Ready to listen</p>
+      <div class="reading"><span id="level" aria-hidden="true">0</span><span> / 100</span></div>
+      <div class="meter" role="meter" aria-label="Microphone level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="level-bar"></div><div id="threshold-mark"></div>
+      </div>
+      <div class="control-label"><label for="threshold">Sound alert threshold</label><output id="threshold-value" for="threshold">50</output></div>
+      <input id="threshold" type="range" min="1" max="100" value="50" aria-describedby="threshold-help">
+      <p id="threshold-help" class="hint">Lower catches quieter sounds. Higher ignores more noise.</p>
+      <button id="start" type="button">Start listening</button>
+      <p id="help" class="hint" aria-live="polite">Tap Start, then allow microphone access.</p>
+    </section>
+    <section class="card voices" aria-labelledby="voices-title">
+      <div class="control-label"><h2 id="voices-title">Hear nearby voices</h2><input id="monitor" type="checkbox" role="switch" aria-label="Hear nearby voices"></div>
+      <p class="hint">Use headphones to avoid feedback. Keep your iPhone near the person talking and start with low headphone volume.</p>
+      <div class="control-label"><label for="boost">Voice boost</label><output id="boost-value" for="boost">1×</output></div>
+      <input id="boost" type="range" min="1" max="6" step="0.5" value="1" disabled aria-describedby="boost-help">
+      <p id="boost-help" class="hint">Turn on voices, then tap Start. Boost raises all microphone sound, including background noise.</p>
+    </section>
+    <footer>
+      <p>Sound alerts indicate loud audio, not confirmed drones.</p>
+      <p>Audio stays on this device. Nothing is recorded or uploaded.</p>
+      <p>Keep this app open and the screen awake. Switching apps or locking the screen pauses listening.</p>
+      <details><summary>iPhone setup &amp; microphone help</summary>
+        <p>Open this site in Safari. Tap Start listening and choose Allow. If blocked, open Safari’s page menu → Website Settings → Microphone → Allow, then try again.</p>
+        <p>For a Home Screen shortcut, use Safari → Share → Add to Home Screen. Headphones must be connected before enabling voices. Bluetooth headphones may add a delay.</p>
+      </details>
+    </footer>
+    <noscript>This app needs JavaScript enabled to use the microphone.</noscript>
+  </main>
+</body>
+</html>
